@@ -59,12 +59,11 @@ jobs:
           POSTGRES_DB: ci
         ports:
           - 5432:5432
-        options:
-          --health-cmd "pg_isready -U postgres -d ci"
+        options: --health-cmd "pg_isready -U postgres -d ci"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
-    
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -80,7 +79,7 @@ jobs:
           target: build
           push: false
           load: true
-          tags: example-migrate:ci
+          tags: zync-migrate:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -89,7 +88,7 @@ jobs:
           docker run --rm
           --network host
           -e DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/ci
-          example-migrate:ci
+          zync-migrate:ci
           bun run db:migrate
 
       - name: Build API Docker image
@@ -99,23 +98,23 @@ jobs:
           file: apps/api/Dockerfile
           push: false
           load: true
-          tags: example-api:ci
+          tags: zync-api:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Start API container
         run: >
           docker run -d --rm
-          --name example-api-ci
+          --name zync-api-ci
           --network host
           -e NODE_ENV=production
           -e DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/ci
           -e BETTER_AUTH_URL=http://127.0.0.1:3000
           -e BETTER_AUTH_SECRET=$(openssl rand -hex 32)
-          example-api:ci
+          zync-api:ci
 
       - name: Smoke test API container
         run: |
           curl --fail --silent --retry 30 --retry-delay 1 --retry-connrefused \
             http://127.0.0.1:3000/health \
-            || { docker logs example-api-ci; exit 1; }
+            || { docker logs zync-api-ci; exit 1; }
