@@ -2,6 +2,7 @@ import {
   type DB,
   drizzleAdapter,
 } from "@better-auth/drizzle-adapter/relations-v2";
+import * as schema from "@repo/db/schema";
 import { betterAuth } from "better-auth";
 import { emailOTP } from "better-auth/plugins";
 import type { EmailSender } from "@/email";
@@ -11,6 +12,7 @@ export function createAuth(deps: { db: DB; emailSender: EmailSender }) {
     basePath: "/api/auth",
     database: drizzleAdapter(deps.db, {
       provider: "pg",
+      schema,
       usePlural: true,
     }),
     plugins: [
