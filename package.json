@@ -1,5 +1,5 @@
 {
-  "name": "example-app",
+  "name": "zync",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -20,9 +20,9 @@
     "db:migrate": "bun run --filter=@repo/db db:migrate",
     "db:push": "bun run --filter=@repo/db db:push",
     "db:studio": "bun run --filter=@repo/db db:studio",
-    "docker:build:api": "docker build -f apps/api/Dockerfile -t example-api:local .",
-    "docker:run:api": "docker run --rm -p 3000:3000 --env-file apps/api/.env.development example-api:local",
-    "docker:shell:api": "docker run --rm -it --entrypoint sh example-api:local",
+    "docker:build:api": "docker build -f apps/api/Dockerfile -t zync-api:local .",
+    "docker:run:api": "docker run --rm -p 3000:3000 --env-file apps/api/.env.development zync-api:local",
+    "docker:shell:api": "docker run --rm -it --entrypoint sh zync-api:local",
     "docker:up": "docker compose -f infra/docker/docker-compose.yml up",
     "docker:up:build": "docker compose -f infra/docker/docker-compose.yml up --build",
     "docker:down": "docker compose -f infra/docker/docker-compose.yml down"
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.7",
     "@types/bun": "latest",
-    "turbo": "^2.8.17",
+    "turbo": "^2.10.12",
     "typescript": "^6"
   },
   "workspaces": [
