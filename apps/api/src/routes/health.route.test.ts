@@ -1,9 +1,9 @@
 import { expect, test } from "bun:test";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { buildTestApp } from "#tests/helpers/build-test-app";
+import { buildUnauthenticatedTestApp } from "#tests/helpers/build-test-app";
 
 test("health route responds", async () => {
-  const app = buildTestApp();
+  const app = buildUnauthenticatedTestApp();
 
   const res = await app.request("/health");
 
