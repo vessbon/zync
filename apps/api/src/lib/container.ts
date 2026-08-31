@@ -1,3 +1,4 @@
+import { createTagService } from "@repo/core/tags";
 import { createDb } from "@repo/db/client";
 import { createAuth } from "@/auth";
 import type { EmailSender } from "@/email";
@@ -5,6 +6,7 @@ import { ConsoleEmailSender } from "@/email/console";
 import env from "@/env";
 import { createBetterAuthHandler } from "./auth-handler";
 import { createPinoLogger } from "./logger";
+import type { Services } from "./services";
 import { createBetterAuthSession } from "./session";
 
 export const db = createDb(env.DATABASE_URL);
@@ -14,3 +16,7 @@ export const auth = createAuth({ db, emailSender });
 export const rootLogger = createPinoLogger(env.NODE_ENV === "production");
 export const getSession = createBetterAuthSession(auth);
 export const authHandler = createBetterAuthHandler(auth);
+
+export const services: Services = {
+  tagService: createTagService(db),
+};

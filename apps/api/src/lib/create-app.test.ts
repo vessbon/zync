@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { buildTestApp } from "#tests/helpers/build-test-app";
+import { buildUnauthenticatedTestApp } from "#tests/helpers/build-test-app";
 import type { SessionData } from "@/lib/session";
 
 describe("app error handling", () => {
   test("unknown route returns 404", async () => {
-    const app = buildTestApp();
+    const app = buildUnauthenticatedTestApp();
 
     const res = await app.request("/does-not-exist");
 
@@ -14,7 +14,7 @@ describe("app error handling", () => {
   });
 
   test("thrown errors return 500 with stack outside production", async () => {
-    const app = buildTestApp({ isProduction: false });
+    const app = buildUnauthenticatedTestApp({ isProduction: false });
     app.get("/boom", () => {
       throw new Error("kaboom");
     });
@@ -28,7 +28,7 @@ describe("app error handling", () => {
   });
 
   test("thrown errors hide stack in production", async () => {
-    const app = buildTestApp({ isProduction: true });
+    const app = buildUnauthenticatedTestApp({ isProduction: true });
     app.get("/boom", () => {
       throw new Error("kaboom");
     });
@@ -49,7 +49,9 @@ describe("session middleware", () => {
       session: { id: "session-1", token: "tok" },
     } as unknown as SessionData;
 
-    const app = buildTestApp({ getSession: async () => fakeSession });
+    const app = buildUnauthenticatedTestApp({
+      getSession: async () => fakeSession,
+    });
     app.get("/whoami", (c) =>
       c.json({ user: c.var.user, session: c.var.session }),
     );
@@ -64,7 +66,7 @@ describe("session middleware", () => {
   });
 
   test("sets user and session to null when getSession returns null", async () => {
-    const app = buildTestApp({ getSession: async () => null });
+    const app = buildUnauthenticatedTestApp({ getSession: async () => null });
     app.get("/whoami", (c) =>
       c.json({ user: c.var.user, session: c.var.session }),
     );
@@ -77,7 +79,7 @@ describe("session middleware", () => {
 
   test("forwards request headers to getSession", async () => {
     let receivedHeaders: Headers | undefined;
-    const app = buildTestApp({
+    const app = buildUnauthenticatedTestApp({
       getSession: async (headers) => {
         receivedHeaders = headers;
         return null;
