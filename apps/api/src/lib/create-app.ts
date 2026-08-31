@@ -47,7 +47,7 @@ export default function createApp({
         message: err.message,
         ...(isProduction ? {} : { stack: err.stack }),
       },
-      500,
+      StatusCodes.INTERNAL_SERVER_ERROR,
     );
   });
 
