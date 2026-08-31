@@ -18,7 +18,7 @@ const rootLogger: Logger = {
 const services: Services = {
   tagService: {
     create: async (_, input) => {
-      return { id: "random", name: input.name, userId: input.userId };
+      return { id: "test-123", name: input.name, userId: input.userId };
     },
   },
 };
