@@ -49,7 +49,9 @@ describe("session middleware", () => {
       session: { id: "session-1", token: "tok" },
     } as unknown as SessionData;
 
-    const app = buildUnauthenticatedTestApp({ getSession: async () => fakeSession });
+    const app = buildUnauthenticatedTestApp({
+      getSession: async () => fakeSession,
+    });
     app.get("/whoami", (c) =>
       c.json({ user: c.var.user, session: c.var.session }),
     );
