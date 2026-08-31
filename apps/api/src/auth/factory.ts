@@ -3,12 +3,17 @@ import {
   drizzleAdapter,
 } from "@better-auth/drizzle-adapter/relations-v2";
 import * as schema from "@repo/db/schema";
-import { betterAuth } from "better-auth";
-import { emailOTP } from "better-auth/plugins";
+import { type BetterAuthPlugin, betterAuth } from "better-auth";
+import { emailOTP, testUtils } from "better-auth/plugins";
 import type { EmailSender } from "@/email";
 
-export function createAuth(deps: { db: DB; emailSender: EmailSender }) {
-  return betterAuth({
+interface AuthDeps {
+  db: DB;
+  emailSender: EmailSender;
+}
+
+function createAuthOptions(deps: AuthDeps) {
+  return {
     basePath: "/api/auth",
     database: drizzleAdapter(deps.db, {
       provider: "pg",
@@ -26,7 +31,25 @@ export function createAuth(deps: { db: DB; emailSender: EmailSender }) {
         },
       }),
     ],
+  };
+}
+
+export function createAuth(deps: AuthDeps) {
+  return betterAuth(createAuthOptions(deps));
+}
+
+export function createTestAuth(deps: AuthDeps) {
+  const options = createAuthOptions(deps);
+
+  const testPlugin = testUtils({
+    captureOTP: true,
+  }) as unknown as BetterAuthPlugin;
+
+  return betterAuth({
+    ...options,
+    plugins: [testPlugin, ...options.plugins],
   });
 }
 
 export type Auth = ReturnType<typeof createAuth>;
+export type TestAuth = ReturnType<typeof createTestAuth>;
