@@ -6,12 +6,14 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import type { Auth } from "@/auth";
 import type { AuthHandler } from "./auth-handler";
 import type { Logger } from "./logger";
+import type { Services } from "./services";
 import type { GetSession } from "./session";
 
 export type AppEnv = {
   Variables: {
     user: Auth["$Infer"]["Session"]["user"] | null;
     session: Auth["$Infer"]["Session"]["session"] | null;
+    services: Services;
     logger: Logger;
   };
 };
@@ -24,6 +26,7 @@ export interface CreateAppDeps {
   rootLogger: Logger;
   getSession: GetSession;
   authHandler: AuthHandler;
+  services: Services;
   isProduction: boolean;
 }
 
@@ -31,6 +34,7 @@ export default function createApp({
   rootLogger,
   getSession,
   authHandler,
+  services,
   isProduction,
 }: CreateAppDeps) {
   const app = createRouter();
@@ -63,6 +67,12 @@ export default function createApp({
         logger.info({ method: c.req.method, path: c.req.path, elapsedMs }),
     }),
   );
+
+  // Service middleware
+  app.use("*", async (c, next) => {
+    c.set("services", services);
+    await next();
+  });
 
   // Session middleware
   app.use("*", async (c, next) => {
