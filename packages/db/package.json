@@ -6,7 +6,9 @@
   "exports": {
     "./client": "./src/client.ts",
     "./schema": "./src/schema/index.ts",
-    "./schema/auth": "./src/schema/auth.ts"
+    "./validators": "./src/validators/index.ts",
+    "./schema/auth": "./src/schema/auth.ts",
+    "./schema/tags": "./src/schema/tags.ts"
   },
   "scripts": {
     "check-types": "tsc",
