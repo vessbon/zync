@@ -1,6 +1,22 @@
 import { expect, test } from "bun:test";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { buildTestApp } from "#tests/helpers/build-test-app";
+import {
+  buildTestApp,
+  buildUnauthenticatedTestApp,
+} from "#tests/helpers/build-test-app";
+
+test("requires authentication", async () => {
+  const app = buildUnauthenticatedTestApp();
+
+  const res = await app.request("/api/tags", {
+    method: "POST",
+    body: JSON.stringify({ name: "test-tag", userId: "user-123" }),
+    headers: new Headers({ "Content-Type": "application/json" }),
+  });
+
+  expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
+  expect(await res.json()).toEqual({ message: ReasonPhrases.UNAUTHORIZED });
+});
 
 test("tag created successfully", async () => {
   const app = buildTestApp();
