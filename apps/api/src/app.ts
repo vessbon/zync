@@ -1,10 +1,14 @@
 import health from "@/routes/health.route";
+import tags from "@/routes/tags";
 import createApp, { type CreateAppDeps } from "./lib/create-app";
 
 export function buildApp(deps: CreateAppDeps) {
   const app = createApp(deps);
 
-  const routes = [{ path: "/health", router: health }] as const;
+  const routes = [
+    { path: "/health", router: health },
+    { path: "/api/tags", router: tags },
+  ] as const;
 
   for (const { path, router } of routes) {
     app.route(path, router);
