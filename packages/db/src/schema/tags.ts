@@ -28,10 +28,12 @@ export const timeEntries = snakeCase.table(
   "time_entries",
   {
     id: uuid().defaultRandom().primaryKey(),
-    tagId: uuid().references(() => tags.id, {
-      onDelete: "cascade",
-    }),
-    duration: integer(),
+    tagId: uuid()
+      .references(() => tags.id, {
+        onDelete: "cascade",
+      })
+      .notNull(),
+    duration: integer().notNull(),
     ...timestamps,
   },
   (table) => [index("time_entries_tag_id_idx").on(table.tagId)],
