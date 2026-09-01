@@ -1,3 +1,4 @@
+import { createTimeEntryService } from "@repo/core/core";
 import { createTagService } from "@repo/core/tags";
 import { createDb } from "@repo/db/client";
 import { createAuth } from "@/auth";
@@ -19,4 +20,5 @@ export const authHandler = createBetterAuthHandler(auth);
 
 export const services: Services = {
   tagService: createTagService(db),
+  timeEntryService: createTimeEntryService(db),
 };
