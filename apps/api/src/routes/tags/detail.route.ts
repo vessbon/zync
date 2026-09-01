@@ -13,7 +13,6 @@ const router = createRouter().get(
   ),
   async (c) => {
     const { id } = c.req.valid("param");
-
     const tag = await c.var.services.tagService.get(id);
 
     if (!tag) {
