@@ -13,7 +13,7 @@ export async function createTag(db: DB, input: CreateTagInput): Promise<Tag> {
   return result;
 }
 
-export async function getTag(db: DB, id: string): Promise<Tag | null> {
+export async function getTagById(db: DB, id: string): Promise<Tag | null> {
   const [tag] = await db.select().from(tags).where(eq(tags.id, id));
   return tag || null;
 }
