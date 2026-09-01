@@ -1,12 +1,9 @@
 import type { DB } from "@repo/db/client";
 import { tags } from "@repo/db/schema";
-import type { Tag } from "@repo/db/validators";
+import type { CreateTagInput, Tag } from "@repo/db/validators";
 import { eq } from "drizzle-orm";
 
-export async function createTag(
-  db: DB,
-  input: { userId: string; name: string },
-): Promise<Tag> {
+export async function createTag(db: DB, input: CreateTagInput): Promise<Tag> {
   const [result] = await db.insert(tags).values(input).returning();
 
   if (!result) {
