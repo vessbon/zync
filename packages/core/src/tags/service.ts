@@ -1,5 +1,6 @@
 import type { DB } from "@repo/db/client";
 import type { CreateTagInput, Tag } from "@repo/db/validators";
+import { InvalidTagNameError, TagCreationForbiddenError } from "./errors";
 import { createTag, getTagById } from "./repo";
 import { canUserCreateTag, normalizeTagInput, validateTagName } from "./rules";
 
@@ -10,11 +11,13 @@ export function createTagService(db: DB) {
 
       const validatedInput = validateTagName(normalizedInput.name);
       if (!validatedInput.isValid) {
-        throw new Error(validatedInput.error || "Invalid tag name");
+        throw new InvalidTagNameError(
+          validatedInput.error ?? "Invalid tag name",
+        );
       }
 
       if (!canUserCreateTag(userId, normalizedInput)) {
-        throw new Error("User cannot create tag for this user");
+        throw new TagCreationForbiddenError();
       }
 
       return createTag(db, normalizedInput);
