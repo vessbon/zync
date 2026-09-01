@@ -16,10 +16,32 @@ const rootLogger: Logger = {
   },
 };
 
+const tags = new Map([
+  [
+    "849a3077-f684-4913-8f06-5533de05fea6",
+    {
+      id: "849a3077-f684-4913-8f06-5533de05fea6",
+      name: "jp",
+      userId: "user-123",
+    },
+  ],
+]);
+
 const services: Services = {
   tagService: {
     create: async (_, input) => {
-      return { id: "test-123", name: input.name, userId: input.userId };
+      const tag = {
+        id: crypto.randomUUID(),
+        name: input.name,
+        userId: input.userId,
+      };
+
+      tags.set(tag.id, tag);
+
+      return tag;
+    },
+    get: async (id) => {
+      return tags.get(id) || null;
     },
   },
 };
