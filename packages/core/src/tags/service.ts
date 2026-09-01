@@ -1,6 +1,6 @@
 import type { DB } from "@repo/db/client";
 import type { CreateTagInput, Tag } from "@repo/db/validators";
-import { createTag } from "./repo";
+import { createTag, getTag } from "./repo";
 import { canUserCreateTag, normalizeTagInput, validateTagName } from "./rules";
 
 export function createTagService(db: DB) {
@@ -20,6 +20,11 @@ export function createTagService(db: DB) {
       const result = await createTag(db, normalizedInput);
 
       return result;
+    },
+    async get(id: string): Promise<Tag | null> {
+      const normalizedInput = id.trim();
+      const tag = getTag(db, normalizedInput);
+      return tag;
     },
   };
 }
