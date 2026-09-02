@@ -1,19 +1,37 @@
 import { expect, test } from "bun:test";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { buildUnauthenticatedTestApp } from "#tests/helpers/build-test-app";
+import {
+  buildTestApp,
+  buildUnauthenticatedTestApp,
+} from "#tests/helpers/build-test-app";
 import {
   createMockServices,
   createMockTagService,
 } from "#tests/helpers/mock-services";
 
-test("tag not found", async () => {
+test("requires authentication", async () => {
   const app = buildUnauthenticatedTestApp();
 
-  const inputTagId = "c5858ab4-944c-436e-b453-f19fda300c9b";
+  const res = await app.request(
+    `/api/tags/c5858ab4-944c-436e-b453-f19fda300c9b`,
+    {
+      method: "GET",
+    },
+  );
 
-  const res = await app.request(`/api/tags/${inputTagId}`, {
-    method: "GET",
-  });
+  expect(res.status).toBe(StatusCodes.UNAUTHORIZED);
+  expect(await res.json()).toEqual({ message: ReasonPhrases.UNAUTHORIZED });
+});
+
+test("tag not found", async () => {
+  const app = buildTestApp();
+
+  const res = await app.request(
+    `/api/tags/c5858ab4-944c-436e-b453-f19fda300c9b`,
+    {
+      method: "GET",
+    },
+  );
 
   expect(res.status).toBe(StatusCodes.NOT_FOUND);
   expect(await res.json()).toEqual({
@@ -24,7 +42,7 @@ test("tag not found", async () => {
 test("tag retrieved successfully", async () => {
   const tagId = "849a3077-f684-4913-8f06-5533de05fea6";
 
-  const app = buildUnauthenticatedTestApp({
+  const app = buildTestApp({
     services: {
       ...createMockServices(),
       tagService: createMockTagService({
