@@ -21,18 +21,18 @@ test("requires authentication", async () => {
 test("tag created successfully", async () => {
   const app = buildTestApp();
 
+  const tagName = "test-tag";
+  const userId = "user-123";
+
   const res = await app.request("/api/tags", {
     method: "POST",
-    body: JSON.stringify({ name: "test-tag", userId: "user-123" }),
+    body: JSON.stringify({ name: tagName, userId }),
     headers: new Headers({ "Content-Type": "application/json" }),
   });
 
   expect(res.status).toBe(StatusCodes.CREATED);
   expect(await res.json()).toMatchObject({
     message: ReasonPhrases.CREATED,
-    tag: {
-      name: "test-tag",
-      userId: "user-123",
-    },
+    tag: { name: tagName, userId },
   });
 });
