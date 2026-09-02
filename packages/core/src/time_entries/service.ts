@@ -10,7 +10,7 @@ export function createTimeEntryService(db: DB) {
       input: CreateTimeEntryInput,
       userId: string,
     ): Promise<TimeEntry> => {
-      const tag = await getTagById(db, input.tagId);
+      const tag = await getTagById(db, input.tagId, userId);
 
       if (!tag) {
         throw new TagNotFoundError();

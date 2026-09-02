@@ -23,13 +23,14 @@ export function createTagService(db: DB) {
       return createTag(db, normalizedInput);
     },
 
-    async delete(id: string): Promise<void> {
-      return deleteTag(db, id);
+    async delete(id: string, userId: string): Promise<void> {
+      const normalizedId = id.trim();
+      return deleteTag(db, normalizedId, userId);
     },
 
-    async getById(id: string): Promise<Tag | null> {
-      const normalizedInput = id.trim();
-      return getTagById(db, normalizedInput);
+    async getById(id: string, userId: string): Promise<Tag | null> {
+      const normalizedId = id.trim();
+      return getTagById(db, normalizedId, userId);
     },
   };
 }
