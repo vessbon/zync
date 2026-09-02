@@ -1,4 +1,5 @@
 import { structuredLogger } from "@hono/structured-logger";
+import type { Services } from "@repo/core/services";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { requestId } from "hono/request-id";
@@ -6,7 +7,6 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import type { Auth } from "@/auth";
 import type { AuthHandler } from "./auth-handler";
 import type { Logger } from "./logger";
-import type { Services } from "./services";
 import type { GetSession } from "./session";
 
 export type AppEnv = {

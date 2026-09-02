@@ -5,7 +5,9 @@
   "private": true,
   "exports": {
     "./core": "./src/index.ts",
-    "./tags": "./src/tags/index.ts"
+    "./services": "./src/services.ts",
+    "./tags": "./src/tags/index.ts",
+    "./time-entries": "./src/time_entries/index.ts"
   },
   "dependencies": {
     "@repo/db": "workspace:*"

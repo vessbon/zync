@@ -3,7 +3,6 @@ import { buildApp } from "@/app";
 import type { AuthHandler } from "@/lib/auth-handler";
 import type { CreateAppDeps } from "@/lib/create-app";
 import type { Logger } from "@/lib/logger";
-import type { Services } from "@/lib/services";
 import type { GetSession } from "@/lib/session";
 
 const rootLogger: Logger = {
