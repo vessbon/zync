@@ -4,6 +4,7 @@ import type { AuthHandler } from "@/lib/auth-handler";
 import type { CreateAppDeps } from "@/lib/create-app";
 import type { Logger } from "@/lib/logger";
 import type { GetSession } from "@/lib/session";
+import { createMockServices } from "./mock-services";
 
 const rootLogger: Logger = {
   info() {},
@@ -15,38 +16,10 @@ const rootLogger: Logger = {
   },
 };
 
-const tags = new Map([
-  [
-    "849a3077-f684-4913-8f06-5533de05fea6",
-    {
-      id: "849a3077-f684-4913-8f06-5533de05fea6",
-      name: "jp",
-      userId: "user-123",
-    },
-  ],
-]);
-
-const services: Services = {
-  tagService: {
-    create: async (_, input) => {
-      const tag = {
-        id: crypto.randomUUID(),
-        name: input.name,
-        userId: input.userId,
-      };
-
-      tags.set(tag.id, tag);
-
-      return tag;
-    },
-    get: async (id) => {
-      return tags.get(id) || null;
-    },
-  },
-};
-
 const getSession: GetSession = async () => null;
 const authHandler: AuthHandler = () => new Response("auth ok");
+
+const services = createMockServices();
 
 const testUser: User = {
   id: "user-123",
