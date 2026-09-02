@@ -13,7 +13,7 @@ const router = createRouter().get(
   ),
   async (c) => {
     const { id } = c.req.valid("param");
-    const tag = await c.var.services.tagService.get(id);
+    const tag = await c.var.services.tagService.getById(id);
 
     if (!tag) {
       return c.json(

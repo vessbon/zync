@@ -22,7 +22,8 @@ export function createTagService(db: DB) {
 
       return createTag(db, normalizedInput);
     },
-    async get(id: string): Promise<Tag | null> {
+
+    async getById(id: string): Promise<Tag | null> {
       const normalizedInput = id.trim();
       return getTagById(db, normalizedInput);
     },
