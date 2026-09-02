@@ -1,4 +1,4 @@
-import { createServices } from "@repo/core/core";
+import { createServices } from "@repo/core/services";
 import { createDb } from "@repo/db/client";
 import { createAuth } from "@/auth";
 import type { EmailSender } from "@/email";
