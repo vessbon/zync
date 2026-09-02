@@ -3,6 +3,10 @@ import create from "./create.route";
 
 const router = createRouter();
 
-router.route("/", create);
+const routes = [create] as const;
+
+routes.forEach((route) => {
+  router.route("/", route);
+});
 
 export default router;
