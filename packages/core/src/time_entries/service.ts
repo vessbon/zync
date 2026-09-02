@@ -1,6 +1,6 @@
 import type { DB } from "@repo/db/client";
 import type { CreateTimeEntryInput, TimeEntry } from "@repo/db/validators";
-import { getTagById } from "@/tags/repo";
+import { getTagById } from "../tags/repo";
 import { TagNotFoundError, TimeEntryCreationForbiddenError } from "./errors";
 import { createTimeEntry } from "./repo";
 
