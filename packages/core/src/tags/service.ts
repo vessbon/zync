@@ -1,7 +1,7 @@
 import type { DB } from "@repo/db/client";
 import type { CreateTagInput, Tag } from "@repo/db/validators";
 import { InvalidTagNameError, TagCreationForbiddenError } from "./errors";
-import { createTag, getTagById } from "./repo";
+import { createTag, deleteTag, getTagById } from "./repo";
 import { canUserCreateTag, normalizeTagInput, validateTagName } from "./rules";
 
 export function createTagService(db: DB) {
@@ -21,6 +21,10 @@ export function createTagService(db: DB) {
       }
 
       return createTag(db, normalizedInput);
+    },
+
+    async delete(id: string): Promise<void> {
+      return deleteTag(db, id);
     },
 
     async getById(id: string): Promise<Tag | null> {
