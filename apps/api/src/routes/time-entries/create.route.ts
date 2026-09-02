@@ -9,12 +9,11 @@ const router = createRouter().post(
   requireAuth,
   zValidator("json", timeEntryInsertSchema),
   async (c) => {
-    const userId = c.var.user.id;
     const input = c.req.valid("json");
 
     const timeEntry = await c.var.services.timeEntryService.create(
       input,
-      userId,
+      c.var.user.id,
     );
 
     return c.json(
