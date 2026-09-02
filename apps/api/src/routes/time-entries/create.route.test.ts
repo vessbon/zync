@@ -21,7 +21,7 @@ test("requires authentication", async () => {
   expect(await res.json()).toEqual({ message: ReasonPhrases.UNAUTHORIZED });
 });
 
-test("tag created successfully", async () => {
+test("time entry created successfully", async () => {
   const app = buildTestApp();
 
   const res = await app.request("/api/time", {
