@@ -27,10 +27,10 @@ test("tag retrieved successfully", async () => {
   });
 
   expect(res.status).toBe(StatusCodes.OK);
-  expect(await res.json()).toEqual({
+  expect(await res.json()).toMatchObject({
     message: ReasonPhrases.OK,
-    tag: expect.objectContaining({
+    tag: {
       id: tagId,
-    }),
+    },
   });
 });

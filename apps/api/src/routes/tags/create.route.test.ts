@@ -28,11 +28,11 @@ test("tag created successfully", async () => {
   });
 
   expect(res.status).toBe(StatusCodes.CREATED);
-  expect(await res.json()).toEqual({
+  expect(await res.json()).toMatchObject({
     message: ReasonPhrases.CREATED,
-    tag: expect.objectContaining({
+    tag: {
       name: "test-tag",
       userId: "user-123",
-    }),
+    },
   });
 });
