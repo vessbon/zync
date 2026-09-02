@@ -7,8 +7,8 @@ import { createTimeEntry } from "./repo";
 export function createTimeEntryService(db: DB) {
   return {
     create: async (
-      userId: string,
       input: CreateTimeEntryInput,
+      userId: string,
     ): Promise<TimeEntry> => {
       const tag = await getTagById(db, input.tagId);
 

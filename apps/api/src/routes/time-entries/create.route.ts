@@ -13,8 +13,8 @@ const router = createRouter().post(
     const input = c.req.valid("json");
 
     const timeEntry = await c.var.services.timeEntryService.create(
-      userId,
       input,
+      userId,
     );
 
     return c.json(

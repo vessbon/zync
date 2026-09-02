@@ -11,7 +11,7 @@ const router = createRouter().post(
   async (c) => {
     const userId = c.var.user.id;
     const input = c.req.valid("json");
-    const tag = await c.var.services.tagService.create(userId, input);
+    const tag = await c.var.services.tagService.create(input, userId);
     return c.json({ message: ReasonPhrases.CREATED, tag }, StatusCodes.CREATED);
   },
 );

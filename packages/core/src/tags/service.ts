@@ -6,7 +6,7 @@ import { canUserCreateTag, normalizeTagInput, validateTagName } from "./rules";
 
 export function createTagService(db: DB) {
   return {
-    async create(userId: string, input: CreateTagInput): Promise<Tag> {
+    async create(input: CreateTagInput, userId: string): Promise<Tag> {
       const normalizedInput = normalizeTagInput(input);
 
       const validatedInput = validateTagName(normalizedInput.name);
