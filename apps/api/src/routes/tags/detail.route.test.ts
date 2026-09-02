@@ -1,6 +1,10 @@
 import { expect, test } from "bun:test";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import { buildUnauthenticatedTestApp } from "#tests/helpers/build-test-app";
+import {
+  createMockServices,
+  createMockTagService,
+} from "#tests/helpers/mock-services";
 
 test("tag not found", async () => {
   const app = buildUnauthenticatedTestApp();
@@ -18,9 +22,20 @@ test("tag not found", async () => {
 });
 
 test("tag retrieved successfully", async () => {
-  const app = buildUnauthenticatedTestApp();
-
   const tagId = "849a3077-f684-4913-8f06-5533de05fea6";
+
+  const app = buildUnauthenticatedTestApp({
+    services: {
+      ...createMockServices(),
+      tagService: createMockTagService({
+        getById: async () => ({
+          id: tagId,
+          name: "test",
+          userId: "user-123",
+        }),
+      }),
+    },
+  });
 
   const res = await app.request(`/api/tags/${tagId}`, {
     method: "GET",
