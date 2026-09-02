@@ -3,8 +3,8 @@ import { buildApp } from "@/app";
 import type { AuthHandler } from "@/lib/auth-handler";
 import type { CreateAppDeps } from "@/lib/create-app";
 import type { Logger } from "@/lib/logger";
-import type { Services } from "@/lib/services";
 import type { GetSession } from "@/lib/session";
+import { createMockServices } from "./mock-services";
 
 const rootLogger: Logger = {
   info() {},
@@ -16,16 +16,10 @@ const rootLogger: Logger = {
   },
 };
 
-const services: Services = {
-  tagService: {
-    create: async (_, input) => {
-      return { id: "test-123", name: input.name, userId: input.userId };
-    },
-  },
-};
-
 const getSession: GetSession = async () => null;
 const authHandler: AuthHandler = () => new Response("auth ok");
+
+const services = createMockServices();
 
 const testUser: User = {
   id: "user-123",

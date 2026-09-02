@@ -4,11 +4,16 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./core": "./src/index.ts",
-    "./tags": "./src/tags/index.ts"
+    ".": "./src/index.ts",
+    "./services": "./src/services.ts",
+    "./tags": "./src/tags/index.ts",
+    "./time-entries": "./src/time_entries/index.ts"
   },
   "dependencies": {
     "@repo/db": "workspace:*"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "^1.0.0-rc.4"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*"

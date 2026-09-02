@@ -1,8 +1,14 @@
 import { createRouter } from "@/lib/create-app";
-import create from "./create.route";
+import createRoute from "./create.route";
+import deleteRoute from "./delete.route";
+import detailRoute from "./detail.route";
 
 const router = createRouter();
 
-router.route("/", create);
+const routes = [createRoute, deleteRoute, detailRoute] as const;
+
+routes.forEach((route) => {
+  router.route("/", route);
+});
 
 export default router;
