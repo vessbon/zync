@@ -1,4 +1,4 @@
-import { ServiceError } from "@/service-error";
+import { ServiceError } from "../service-error";
 
 export class InvalidTagNameError extends ServiceError {
   constructor(message = "Invalid tag name") {

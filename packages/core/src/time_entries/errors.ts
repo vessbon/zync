@@ -1,4 +1,4 @@
-import { ServiceError } from "@/service-error";
+import { ServiceError } from "../service-error";
 
 export class TagNotFoundError extends ServiceError {
   constructor() {
